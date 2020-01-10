@@ -10,7 +10,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: jadametz/goTweetDelete/gotweetdelete
-        username: jadametz
+        name: jadametz/gotweetdelete/gotweetdelete
+        username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
