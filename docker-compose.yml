@@ -1,0 +1,6 @@
+version: '3'
+services:
+  goTweetDelete:
+    build: .
+    image: jadametz/gotweetdelete
+    env_file: .env
