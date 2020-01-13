@@ -1,8 +1,6 @@
 package config
 
 import (
-	"log"
-
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -19,11 +17,11 @@ type Config struct {
 }
 
 // New returns a new Config struct
-func New() *Config {
+func New() (*Config, error) {
 	var c Config
 	if err := envconfig.Process("", &c); err != nil {
-		log.Fatal(err.Error())
+		return nil, err
 	}
 
-	return &c
+	return &c, nil
 }
