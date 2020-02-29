@@ -3,7 +3,7 @@ on:
   schedule:
   # 8:00AM PDT
   # - cron: 0 15 * * *
-  - cron: '* * * * *'
+  - cron: '*/5 * * * *'
 
 jobs:
   daily-run:
