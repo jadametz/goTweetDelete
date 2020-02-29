@@ -20,6 +20,7 @@ jobs:
         -e ACCESSSECRET=$ACCESSSECRET \
         -e ACCESSTOKEN=$ACCESSTOKEN \
         -e CONSUMERKEY=$CONSUMERKEY \
+        -e CONSUMERSECRET=$CONSUMERSECRET \
         -e ENVIRONMENT=production \
         -e SCREENNAME=jesseadametz \
         jadametz/gotweetdelete
