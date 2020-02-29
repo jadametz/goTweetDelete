@@ -1,0 +1,26 @@
+name: 'Daily run'
+on:
+  schedule:
+  # 8:00AM PDT
+  # - cron: 0 15 * * *
+  - cron: '*/5 * * * *'
+
+jobs:
+  daily-run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: run gotweetdelete
+      env:
+        ACCESSSECRET: ${{ secrets.ACCESSSECRET }}
+        ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}
+        CONSUMERKEY: ${{ secrets.CONSUMERKEY }}
+        CONSUMERSECRET: ${{ secrets.CONSUMERSECRET }}
+      run: |
+        docker run \
+        -e ACCESSSECRET=$ACCESSSECRET \
+        -e ACCESSTOKEN=$ACCESSTOKEN \
+        -e CONSUMERKEY=$CONSUMERKEY \
+        -e CONSUMERSECRET=$CONSUMERSECRET \
+        -e ENVIRONMENT=production \
+        -e SCREENNAME=jesseadametz \
+        jadametz/gotweetdelete
