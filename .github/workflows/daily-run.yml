@@ -2,8 +2,7 @@ name: 'Daily run'
 on:
   schedule:
   # 8:00AM PDT
-  # - cron: 0 15 * * *
-  - cron: '*/5 * * * *'
+  - cron: 0 15 * * *
 
 jobs:
   daily-run:
