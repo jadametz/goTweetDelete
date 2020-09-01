@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/jadametz/goTweetDelete/twitter"
 	"os"
+
+	"github.com/jadametz/goTweetDelete/twitter"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -18,12 +19,13 @@ func main() {
 		log.WithError(err).Fatal("Unable to create Twitter struct")
 	}
 
-	deleted, skipped, err := t.DeleteOldTweets()
+	deleted, ignored, skipped, err := t.DeleteOldTweets()
 	if err != nil {
 		log.WithError(err).Error("Issue deleting Tweets")
 	}
 	log.WithFields(log.Fields{
 		"deleted": deleted,
+		"ignored": ignored,
 		"skipped": skipped,
 	}).Info("Tweet evaluation complete")
 

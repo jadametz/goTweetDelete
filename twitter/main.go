@@ -27,9 +27,10 @@ func (t *Twitter) createClient() {
 }
 
 // DeleteOldTweets destroys Tweets older than Config.DaysToKeeps
-func (t *Twitter) DeleteOldTweets() (deleted, skipped int, err error) {
+func (t *Twitter) DeleteOldTweets() (deleted, ignored, skipped int, err error) {
 	now := time.Now()
 	deleted = 0
+	ignored = 0
 	skipped = 0
 
 	tweets, _, err := t.Client.Timelines.UserTimeline(&twitter.UserTimelineParams{
@@ -38,19 +39,24 @@ func (t *Twitter) DeleteOldTweets() (deleted, skipped int, err error) {
 		IncludeRetweets: twitter.Bool(t.Config.IncludeRetweets),
 	})
 	if err != nil {
-		return deleted, skipped, err
+		return deleted, ignored, skipped, err
 	}
 
 	for _, tweet := range tweets {
+		if tweet.ID == t.Config.IgnoreID {
+			ignored++
+			continue
+		}
+
 		createdAt, err := tweet.CreatedAtTime()
 		if err != nil {
-			return deleted, skipped, err
+			return deleted, ignored, skipped, err
 		}
 		daysAgo := now.Sub(createdAt).Hours() / 24
 		if int(daysAgo) >= t.Config.DaysToKeep {
 			_, _, err := t.Client.Statuses.Destroy(tweet.ID, nil)
 			if err != nil {
-				return deleted, skipped, err
+				return deleted, ignored, skipped, err
 			}
 			deleted++
 		} else {
@@ -58,7 +64,7 @@ func (t *Twitter) DeleteOldTweets() (deleted, skipped int, err error) {
 		}
 	}
 
-	return deleted, skipped, nil
+	return deleted, ignored, skipped, nil
 }
 
 // New returns a new Twitter struct

@@ -19,6 +19,7 @@ The following environment variables exist for configuration:
 |`CONSUMERKEY`|Twitter API credential|Y||
 |`CONSUMERSECRET`|Twitter API credential|Y||
 |`DAYSTOKEEP`|The number of days to keep Tweets before they're deleted|N|`30`|
+|`IGNOREID`|The Tweet ID of a Tweet you'd like to be ignored (e.g. a pinned Tweet)|N||
 |`TWEETCOUNT`|This is an API detail - the number of Tweets that'll be retrieved, `3200` is the max|N|`3200`|
 |`INCLUDERETWEETS`|Whether RT's should be included in the search/deletion|N|`true`|
 |`SCREENNAME`|Your Twitter handle|Y||
