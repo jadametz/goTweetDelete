@@ -33,16 +33,31 @@ func (t *Twitter) DeleteOldTweets() (deleted, ignored, skipped int, err error) {
 	ignored = 0
 	skipped = 0
 
-	tweets, _, err := t.Client.Timelines.UserTimeline(&twitter.UserTimelineParams{
-		Count:           t.Config.TweetCount,
-		ScreenName:      t.Config.ScreenName,
-		IncludeRetweets: twitter.Bool(t.Config.IncludeRetweets),
-	})
-	if err != nil {
-		return deleted, ignored, skipped, err
+	lastTweetID := int64(0)
+	var allTweets []twitter.Tweet
+	for {
+		params := &twitter.UserTimelineParams{
+			Count:           200,
+			ScreenName:      t.Config.ScreenName,
+			IncludeRetweets: twitter.Bool(t.Config.IncludeRetweets),
+		}
+		if lastTweetID != 0 {
+			params.MaxID = lastTweetID - 1
+		}
+		tweets, _, err := t.Client.Timelines.UserTimeline(params)
+		if len(tweets) == 0 {
+			break
+		}
+		if err != nil {
+			return deleted, ignored, skipped, err
+		}
+		allTweets = append(allTweets, tweets...)
+		for _, t := range tweets {
+			lastTweetID = t.ID
+		}
 	}
 
-	for _, tweet := range tweets {
+	for _, tweet := range allTweets {
 		if tweet.ID == t.Config.IgnoreID {
 			ignored++
 			continue
