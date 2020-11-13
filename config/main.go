@@ -12,7 +12,6 @@ type Config struct {
 	ConsumerSecret  string `required:"true"`
 	DaysToKeep      int    `default:"30"`
 	IgnoreID        int64
-	TweetCount      int    `default:"3200"`
 	IncludeRetweets bool   `default:"true"`
 	ScreenName      string `required:"true"`
 }
