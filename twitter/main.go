@@ -58,7 +58,7 @@ func (t *Twitter) DeleteOldTweets() (deleted, ignored, skipped int, err error) {
 	}
 
 	for _, tweet := range allTweets {
-		if tweet.ID == t.Config.IgnoreID {
+		if t.Config.ShouldIgnoreId(tweet.ID) {
 			ignored++
 			continue
 		}
