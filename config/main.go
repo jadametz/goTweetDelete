@@ -11,9 +11,18 @@ type Config struct {
 	ConsumerKey     string `required:"true"`
 	ConsumerSecret  string `required:"true"`
 	DaysToKeep      int    `default:"30"`
-	IgnoreID        int64
+	IgnoreIDs       []int64
 	IncludeRetweets bool   `default:"true"`
 	ScreenName      string `required:"true"`
+}
+
+func (c *Config) ShouldIgnoreId(id int64) bool {
+	for _, i := range c.IgnoreIDs {
+		if i == id {
+			return true
+		}
+	}
+	return false
 }
 
 // New returns a new Config struct
