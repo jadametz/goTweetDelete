@@ -63,6 +63,11 @@ func (t *Twitter) DeleteOldTweets() (deleted, ignored, skipped int, err error) {
 			continue
 		}
 
+		if t.Config.ShouldIgnoreOnSubstrings(tweet.Text) {
+			ignored++
+			continue
+		}
+
 		createdAt, err := tweet.CreatedAtTime()
 		if err != nil {
 			return deleted, ignored, skipped, err

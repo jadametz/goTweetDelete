@@ -57,3 +57,58 @@ func TestConfig_ShouldIgnoreId(t *testing.T) {
 		})
 	}
 }
+
+func TestConfig_ShouldIgnoreOnSubstrings(t *testing.T) {
+	type fields struct {
+		IgnoreSubstrings []string
+	}
+	type args struct {
+		body string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   bool
+	}{
+		{
+			name: "No substrings provided",
+			args: args{body: "Test body"},
+			want: false,
+		},
+		{
+			name:   "One substring provided (matching)",
+			fields: fields{IgnoreSubstrings: []string{"bod"}},
+			args:   args{body: "Test body"},
+			want:   true,
+		},
+		{
+			name:   "One substring provided (not matching)",
+			fields: fields{IgnoreSubstrings: []string{"bodi"}},
+			args:   args{body: "Test body"},
+			want:   false,
+		},
+		{
+			name:   "Multiple substring provided (matching)",
+			fields: fields{IgnoreSubstrings: []string{"bodi", "foo", "bar", "bod"}},
+			args:   args{body: "Test body"},
+			want:   true,
+		},
+		{
+			name:   "Multiple substring provided (not matching)",
+			fields: fields{IgnoreSubstrings: []string{"bodi", "foo", "bar", "2bod"}},
+			args:   args{body: "Test body"},
+			want:   false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &Config{
+				IgnoreSubstrings: tt.fields.IgnoreSubstrings,
+			}
+			if got := c.ShouldIgnoreOnSubstrings(tt.args.body); got != tt.want {
+				t.Errorf("Config.ShouldIgnoreOnSubstrings() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
