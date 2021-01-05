@@ -20,6 +20,7 @@ The following environment variables exist for configuration:
 |`CONSUMERSECRET`|Twitter API credential|Y||
 |`DAYSTOKEEP`|The number of days to keep Tweets before they're deleted|N|`30`|
 |`IGNOREIDS`|The Tweet ID(s), comma separated, of a Tweet you'd like to be ignored (e.g. a pinned Tweet)|N||
+|`IGNORESUBSTRINGS`|Strings, comma separated, that will cause a Tweet to be ignored|N||
 |`INCLUDERETWEETS`|Whether RT's should be included in the search/deletion|N|`true`|
 |`SCREENNAME`|Your Twitter handle|Y||
 
